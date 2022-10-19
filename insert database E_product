@@ -1,0 +1,82 @@
+<html>
+    <body>
+        <h1>product profile</h1>
+        <form action="actiondb.php" method="post" >
+            <table>
+                <tr>
+                    <td>product name: </td>
+                    <td> <input type="text" name="name"></td>
+                </tr>
+                <tr>
+                    <td>product price: </td>
+                    <td> <input type="number" name="price" ></td>
+                </tr>
+                <tr>
+                    <td> manufacture date: </td>
+                    <td> <input type="date" name="p_m_date"></td>
+                </tr>
+                <tr>
+                    <td>Expire date: </td>
+                    <td> <input type="date" name="p_e_date" ></td>
+                </tr>
+                <tr>
+                    <td> <input type="submit"></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
+
+
+
+<?php
+
+$pname=$_POST['name'];
+$price=$_POST['price'];
+$p_m_date=$_POST['p_m_date'];
+$p_e_date=$_POST['p_e_date'];
+
+
+$conn= mysqli_connect("localhost","root","","mydb") or die("connection failed");
+
+$sql=" insert into product values('{$pname}','{$price}','{$p_m_date}','{$p_e_date}')" ;
+$result= mysqli_query($conn,$sql) or die("query unseccsesfull");
+
+header ("location: http://localhost/p2/table.php");
+mysqli_close($conn);
+
+?>
+
+
+
+
+
+<?php
+$conn= mysqli_connect("localhost","root","","mydb") or die("connection failed");
+
+$sql=" select * from product" ;
+$result= mysqli_query($conn,$sql) or die("query unseccsesfull");
+if(mysqli_num_rows($result)>0){
+?>
+<html>
+<body>
+<table border="1">
+        <td>product name</td>
+        <td>product price</td>
+        <td>p_m_date</td>
+        <td>p_e_date</td>
+    
+    <?php
+    while($row=mysqli_fetch_assoc($result)){
+    ?>    
+    <tr>
+        <td><?php echo $row['product_name']; ?> </td>
+        <td><?php echo $row['product_price']; ?> </td>
+        <td><?php echo $row['p_m_date']; ?> </td>
+        <td><?php echo $row['p_e_date']; ?> </td>
+    </tr>
+    <?php } ?>
+</table>
+<?php } ?>
+</body>
+</html>
