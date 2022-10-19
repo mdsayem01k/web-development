@@ -1,0 +1,114 @@
+<html>
+<head>
+<style>
+    .error{ color: #f00;}
+</style>    
+</head>
+<body>
+    
+<?php 
+$nameerr=$carerr = $emailerr= $gendererr=$ageerr="";
+
+$name=$car =$email=$gender=$age="";
+$vehicle= array();
+
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+    if(empty($_POST["name"])){
+        $nameerr="Please enter valid name";
+
+    } else{
+        $name = test_input($_POST["name"]);
+        if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
+          $nameErr = "Only letters and white space allowed";
+        }
+    }
+
+    if(empty($_POST["car"])){
+        $carerr="please sellect a car";
+    
+    }
+        
+
+if(empty($_POST["email"])){
+    $emailerr="valid email address";
+
+} else{
+    $email=test_input($_POST['email']);
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $emailerr=" The email address is incorrect";
+    }
+}
+if(empty($_POST["gender"])){
+    $gendererr="please sellect a gender";
+
+} else{
+    $gender=test_input($_POST['gender']);
+    
+}
+if(empty($_POST["age"])){
+    $ageerr="please enter age";
+
+} 
+
+
+}
+
+function test_input($data){
+    $data=trim($data);
+    $data=stripcslashes($data);
+    $data=htmlspecialchars($data);
+    return $data;
+}
+
+?>
+
+<h2> from validation</h2>   
+<p><span class="error">* required field</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+Full Name: <input type="text" name="name">
+<span class="error"> <?php echo $nameerr ?></span>
+<br>
+<br>
+Car:
+<select id="car" name="car" size="2">
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="fiat">Fiat</option>
+  <option value="audi">Audi</option>
+</select>
+<span class="error"> <?php echo $carerr ?></span>
+<br>
+<br>
+email: <input type="text" name="email">
+<span class="error"> <?php echo $emailerr ?></span>
+<br>
+Age: <input type="number" name="age">
+<span class="error" > <?php echo $ageerr ?></span>
+<br>
+Gender : 
+<input type="radio" name="gender" id="" value="female">Female
+<input type="radio" name="gender" id="" value="male">Male
+<span class="error"> <?php echo $gendererr ?></span>
+<br>
+<br>
+choose : 
+bike
+<input type="checkbox" id="vehicle1" name="vehicle" value="Bike">
+ car
+<input type="checkbox" id="vehicle2" name="vehicle" value="Car">
+ boat
+<input type="checkbox" id="vehicle3" name="vehicle" value="Boat">
+
+<br>
+<br>
+<input type="submit" name="submit" value="submit">
+
+</form> 
+<?php
+  echo " <h2> your intput: </h2> ";
+  echo "<pre>";
+  print_r($_POST);
+  ?> 
+
+</body>
+</html>
