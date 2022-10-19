@@ -1,0 +1,108 @@
+--login page
+
+<html> 
+
+<body>
+<h2>login form session and cookie</h2>
+
+<form method="post" action="validate.php">
+Email: <input type="text" name="email" id="email" value="">
+
+<br><br>
+Password: <input type="text" name="password">
+
+<br><br>
+Remember me: <input type="checkbox" name="remember">
+<br><br>
+
+<input type="submit" name="login" value="Login">
+</form>
+
+</body>
+
+</html>
+<?php
+if(isset($_COOKIE['email'])){ 
+    $email=$_COOKIE['email'];
+    echo "<script> 
+    document.getElementById('email').value='$email';
+    </script>";
+}
+?>
+
+
+
+validate.php page
+
+<?php 
+
+$myemail="mdsayem01k@gmail.com";
+$mypass="12345";
+
+if(isset($_POST['login'])){
+    $email=$_POST['email'];
+    $pass=$_POST['password'];
+    if($email==$myemail and $pass==$mypass){
+        if(isset($_POST['remember'])){
+            setcookie('email',$email,time()+60*60*10);
+            
+        }
+        session_start();
+        $_SESSION['email']=$email;
+        header("location: welcome.php");
+        
+
+    }else{
+        echo "Email or Password is invalid.<br> <a href='login.php'> click here </a> to try again";
+    }
+}else{
+    header("location: login.php");
+}
+
+?>
+
+welcome.php page
+
+<html> 
+
+<body>
+<h2>login form session and cookie</h2>
+
+<form method="post" action="validate.php">
+Email: <input type="text" name="email" id="email" value="">
+
+<br><br>
+Password: <input type="text" name="password">
+
+<br><br>
+Remember me: <input type="checkbox" name="remember">
+<br><br>
+
+<input type="submit" name="login" value="Login">
+</form>
+
+</body>
+
+</html>
+<?php
+if(isset($_COOKIE['email'])){ 
+    $email=$_COOKIE['email'];
+    echo "<script> 
+    document.getElementById('email').value='$email';
+    </script>";
+}
+?>
+
+logout.php page
+
+<?php
+session_start();
+session_destroy();
+if(isset($_COOKIE['email'])){ 
+    $_SESSION['email']=$email;
+    setcookie('email',$email,time()-60*60*10);
+}
+echo " you successfully log out.";
+echo "<br> Click here to <a href='login.php'>login</a>";
+
+?>
