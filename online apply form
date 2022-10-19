@@ -1,0 +1,134 @@
+index.php
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Document</title>
+</head>
+<body>
+<form action="show.php" method="Post">
+<h1 style="text-align:center;">Registration Form</h1>
+<table align="center">
+<tr>
+<td>Frist Name</td>
+<td><input tupe="text" name="name" value="" placeholder="Enter Name"></td>
+</tr>
+<tr>
+<td>Father's Name</td>
+<td><input tupe="text" name="faname" value="" placeholder="Enter Father's Name"></td>
+</tr>
+<tr>
+<td>Mother's Name</td>
+<td><input type="text" name="mname" value="" placeholder="Enter MOther's Name"></td>
+</tr>
+<tr>
+<td>Date of Birth</td>
+<td><input type="date" name="db" value="" placeholder="Enter Date of birth"></td>
+</tr>
+<tr>
+<td>Email</td>
+<td><input type="email" name="email" value="" placeholder="Enter Email"></td>
+</tr>
+<tr>
+<td>Gender</td>
+<td><input type="radio" name="gender" value="male">Male
+<input type="radio" name="gender" value="female">Female</td>
+</tr>
+<tr>
+<td>Religion</td>
+<td><input type="radio" name="religion" value="muslim">Muslim
+<input type="radio" name="religion" value="hindu">Hindu
+<input type="radio" name="religion" value="others">Others
+</td>
+</tr>
+<tr>
+<td>Blood Group</td>
+<td>
+<select name="blood" id="blood">
+<option value="A+">A+</option>
+<option value="A-">A-</option>
+<option value="B+">B+</option>
+<option value="B-">B-</option>
+<option value="O+">O+</option>
+<option value="O-">O-</option>
+<option value="AB+">AB+</option>
+<option value="AB-">AB-</option>
+</select>
+</td>
+</tr>
+<tr>
+<td>H.S.C Roll</td>
+<td><input type="number" name="hroll" value="" placeholder="Enter hsc roll"></td>
+</tr>
+<tr>
+<td>H.S.C Registration</td>
+<td><input type="number" name="reg" value="" placeholder="Enter Registration No"></td>
+</tr>
+<tr>
+<td><input type="submit"  value="Submit"></td>
+</tr>
+</table>
+</form>
+</body>
+</html>
+
+
+show.php
+
+<?php
+$name=$_POST['name'];
+$faname=$_POST['faname'];
+$mname=$_POST['mname'];
+$db=$_POST['db'];
+$email=$_POST['email'];
+$gender=$_POST['gender'];
+$religion=$_POST['religion'];
+$blood=$_POST['blood'];
+$hroll=$_POST['hroll'];
+$reg=$_POST['reg'];
+?>
+<h1 style="text-align:center;">Registration Form</h1>
+<form align="center">
+<table align="center" border="1px">
+<tr>
+<td>Name</td>
+<td><?php echo $name; ?></td>
+</tr>
+<tr>
+<td>Father's Name</td>
+<td><?php echo $faname; ?></td>
+</tr>
+<tr>
+<td>Mother's Name</td>
+<td><?php echo $mname; ?></td>
+</tr>
+<tr>
+<td>Date of Birth</td>
+<td><?php echo $db; ?></td>
+</tr>
+<tr>
+<td>Email</td>
+<td><?php echo $email; ?></td>
+</tr>
+<tr>
+<td>Gender</td>
+<td><?php echo $gender; ?></td>
+</tr>
+<tr>
+<td>Religion</td>
+<td><?php echo $religion; ?></td>
+</tr>
+<tr>
+<td>Blood Group</td>
+<td><?php echo $blood; ?></td>
+</tr>
+<tr>
+<td>H.S.C Roll</td>
+<td><?php echo $hroll; ?></td>
+</tr>
+<tr>
+<td>H.S.C Registration No</td>
+<td><?php echo $reg; ?></td>
+</tr>
+</table>
+</form>
