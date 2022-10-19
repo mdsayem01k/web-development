@@ -1,0 +1,159 @@
+database
+
+<?php
+$conn=mysqli_connect('localhost','root','','mydb');
+if(!$conn){
+	echo "Connection Error".mysqli_connect_error();
+}
+else{
+//	echo "Connected";
+}
+?>
+
+index.php page
+
+<body>
+<form action="upload.php" method="post" enctype="multipart/form-data">
+<table>
+<tr>
+<td><label="imageTitle">Image Title</label></td>
+<td><input type="text" name="imageTitle"></td>
+</tr>
+<tr>
+<td></td>
+<td><input type="file" name="image"></td>
+</tr>
+<tr>
+<td><input type="submit" name="upload" value="upload"></td>
+</tr>
+</table>
+</form>
+</body>
+<a href="show.php">Go to Gallery</a>
+
+
+upload.php
+
+<?php
+include_once("dCon.php");
+if(isset($_POST['upload'])){
+	
+	$imageTitle=$_FILES['image']['name'];
+	$imageTmp=$_FILES['image']['tmp_name'];
+	$imageExtension=strtolower(pathinfo($imageTitle,PATHINFO_EXTENSION));
+	$error=false;
+	if($imageExtension!="jpg" && $imageExtension!="png" && $imageExtension!="jpeg")
+	{
+		$error=true;
+		?>
+		<script>
+		window.alert("invalid extension");
+		window.location.href="index.php";
+		</script>
+		<?php
+		//header("location:index.php");
+		exit();
+	}
+	$imageDir="images/".$imageTitle;
+	
+	$sql="SELECT * from image_gallery";
+	$result= mysqli_query($conn,$sql) or die("unsuccessful query");
+	if(mysqli_num_rows($result)>0){
+		while($row=mysqli_fetch_assoc($result)){
+			if($imageDir== $row["imagedir"]){
+				$error=true;
+			?>
+				<script>
+				window.alert("image is already exit");
+				window.location.href='index.php';
+				</script>
+		<?php
+		//header("location:index.php");
+		exit();
+	}
+
+		}
+	}
+	
+	if($error==true){
+		//header("location:index.php");
+	}else{
+		move_uploaded_file($imageTmp,$imageDir);
+		extract($_POST);
+		$insert="INSERT INTO image_gallery
+	          VALUES('$imageTitle','$imageDir')";
+		if(mysqli_query($conn,$insert)){
+		header("location:show.php");
+		}
+		else{
+		echo "error";
+	}
+	
+
+	}    
+	
+}
+?>
+
+show.php
+<?php
+include_once("dCon.php");
+$view=0;
+$sql="SELECT * FROM image_gallery";
+$result=mysqli_query($conn,$sql);
+if(mysqli_num_rows($result)){
+	while($row=mysqli_fetch_assoc($result)){
+	extract($row);
+	?>
+	<div style="float:left ; padding:1%">
+
+	<a href="view.php?id=<?php echo $title ;?> && view=<?php echo $view ;?>">
+	<?php $view++; ?>
+	<img src="<?php echo $imagedir ;?>" width="200px" height="200px" alt="<?php echo $title ;?>" title="<?php echo $title ;?>" onclick="view()">
+	<h2><?php echo $title ;?>
+	</a>
+	<script>
+		function view(){
+
+		}
+	</script>
+	</div>
+	<?php
+}
+}
+?>
+
+<br>
+<div>
+<a href="index.php">Insert to Gallery</a>
+</div>
+
+
+view.php page
+
+<?php
+include_once("dCon.php");
+$title=$_REQUEST['id'];
+$view=
+$sql="select * from image_gallery where title='{$title}' ";
+$result=mysqli_query($conn,$sql) or die("query error");
+if(mysqli_num_rows($result)){
+	while($row=mysqli_fetch_assoc($result)){
+	extract($row);
+	?>
+	<div style="float:left ; padding:1%">
+	<img src="<?php echo $imagedir ;?>" width="400px" height="400px" alt="<?php echo $title ;?>" title="<?php echo $title ;?>" >
+	<h2><?php echo $title ;?>
+    <h2><?php echo "view=" ;?>
+	
+	</div>
+	<?php
+}
+}
+?>
+
+<br>
+<div>
+<a href="index.php">Insert to Gallery</a>
+</div>
+
